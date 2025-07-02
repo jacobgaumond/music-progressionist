@@ -2,12 +2,20 @@
 
 from pitch import Pitch
 
+DIMINISHED_SYMBOL = "dim" # "°" is also applicable
+
 class Chord:
 
     CHORD_SEQUENCES = { # Valid types of chords must be recorded here in order for the class to work
         "MAJOR": [4, 3],
         "MINOR": [3, 4],
         "DIMINISHED": [3, 3]
+    }
+
+    CHORD_SUFFIXES = {
+        "MAJOR": "",
+        "MINOR": "m",
+        "DIMINISHED": DIMINISHED_SYMBOL
     }
 
     def __init__(self, root_pitch: Pitch, chord_type: str):
@@ -27,6 +35,9 @@ class Chord:
     def get_chord_notes(self):
         return self.chord_notes
     
+    def get_chord_name(self):
+        return str(self.root_pitch) + self.CHORD_SUFFIXES[self.chord_type]
+
     def __eq__(self, other):
         if self.root_pitch != other.root_pitch:
             return False
@@ -40,7 +51,7 @@ class Chord:
 
 # Testing
 if __name__ == "__main__":
-    def test_chords(root_pitch: str, chord_type: str, expected_result):
+    def test_chord_notes(root_pitch: str, chord_type: str, expected_result):
         expected_pitches = []
         for pitch in expected_result:
             expected_pitches.append(Pitch(pitch))
@@ -51,10 +62,17 @@ if __name__ == "__main__":
         else:
             return False
 
+    def test_chord_names(root_pitch: str, chord_type: str, expected_result):
+        test_chord = Chord(Pitch(root_pitch), chord_type).get_chord_name()
+        if test_chord == expected_result:
+            return True
+        else:
+            return False
+
     num_tests = 0
     failed_tests = []
 
-    chord_testing_list = [
+    chord_note_testing_list = [
         {"root_pitch": "C", "chord_type": "MAJOR", "expected_result": ["C", "E", "G"]},
         {"root_pitch": "G", "chord_type": "MAJOR", "expected_result": ["G", "B", "D"]},
         {"root_pitch": "F#/G♭", "chord_type": "MAJOR", "expected_result": ["F#/G♭", "A#/B♭","C#/D♭"]},
@@ -67,11 +85,28 @@ if __name__ == "__main__":
         {"root_pitch": "E", "chord_type": "DIMINISHED", "expected_result": ["E", "G", "A#/B♭"]},
         {"root_pitch": "G#/A♭", "chord_type": "DIMINISHED", "expected_result": ["G#/A♭", "B", "D"]}
     ]
+    chord_name_testing_list = [
+        {"root_pitch": "C", "chord_type": "MAJOR", "expected_result": "C"},
+        {"root_pitch": "G", "chord_type": "MAJOR", "expected_result": "G"},
+        {"root_pitch": "F#/G♭", "chord_type": "MAJOR", "expected_result": "F#/G♭"},
+
+        {"root_pitch": "A", "chord_type": "MINOR", "expected_result": "Am"},
+        {"root_pitch": "D", "chord_type": "MINOR", "expected_result": "Dm"},
+        {"root_pitch": "G#/A♭", "chord_type": "MINOR", "expected_result": "G#/A♭m"},
+
+        {"root_pitch": "B", "chord_type": "DIMINISHED", "expected_result": "Bdim"},
+        {"root_pitch": "E", "chord_type": "DIMINISHED", "expected_result": "Edim"},
+        {"root_pitch": "G#/A♭", "chord_type": "DIMINISHED", "expected_result": "G#/A♭dim"}
+    ]
 
     print("Begin testing chord generation:")
-    for chord_test in chord_testing_list:
+    for chord_test in chord_note_testing_list:
         num_tests += 1
-        if not test_chords(chord_test["root_pitch"], chord_test["chord_type"], chord_test["expected_result"]):
+        if not test_chord_notes(chord_test["root_pitch"], chord_test["chord_type"], chord_test["expected_result"]):
+            failed_tests += [chord_test]
+    for chord_test in chord_name_testing_list:
+        num_tests += 1
+        if not test_chord_names(chord_test["root_pitch"], chord_test["chord_type"], chord_test["expected_result"]):
             failed_tests += [chord_test]
     print("Finished testing chord generation...")
 
