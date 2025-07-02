@@ -26,6 +26,16 @@ class Chord:
     
     def get_chord_notes(self):
         return self.chord_notes
+    
+    def __eq__(self, other):
+        if self.root_pitch != other.root_pitch:
+            return False
+        elif self.chord_type != other.chord_type:
+            return False
+        elif self.chord_notes != self.chord_notes:
+            return False
+        else:
+            return True
 
 
 # Testing
