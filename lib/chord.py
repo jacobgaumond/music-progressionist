@@ -2,7 +2,7 @@
 
 from pitch import Pitch
 
-DIMINISHED_SYMBOL = "dim" # "°" is also applicable
+DIMINISHED_SYMBOL = "°" # "dim" is also applicable in certain contexts
 
 class Chord:
 
