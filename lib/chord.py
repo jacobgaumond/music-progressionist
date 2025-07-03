@@ -38,6 +38,9 @@ class Chord:
     def get_chord_name(self):
         return str(self.root_pitch) + self.CHORD_SUFFIXES[self.chord_type]
 
+    def get_chord_type(self):
+        return self.chord_type
+
     def __eq__(self, other):
         if self.root_pitch != other.root_pitch:
             return False
