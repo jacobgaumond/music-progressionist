@@ -1,6 +1,6 @@
 #! /opt/homebrew/bin/python3
 
-from pitch import Pitch
+from lib.pitch import Pitch
 
 class Scale:
 

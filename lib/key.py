@@ -1,8 +1,8 @@
 #! /opt/homebrew/bin/python3
 
-from pitch import Pitch
-from scale import Scale
-from chord import Chord, DIMINISHED_SYMBOL
+from lib.pitch import Pitch
+from lib.scale import Scale
+from lib.chord import Chord, DIMINISHED_SYMBOL
 
 class Key:
 
@@ -24,11 +24,13 @@ class Key:
         scale_notes = self.scale.get_scale_notes()
         ## Setup its chords
         self.chords = []
+        self.chords_and_roman_nums = []
         for position in range(len(scale_notes)):
             current_chord = Chord(scale_notes[position], self.KEY_CHORD_SEQUENCES[key_type][position])
             roman_numeral_chord_tuple = (self._get_roman_numeral_chord_notation(current_chord, position + 1), current_chord) # Tuple contains the chord, along with it's roman numeral label
 
-            self.chords.append(roman_numeral_chord_tuple)
+            self.chords.append(current_chord)
+            self.chords_and_roman_nums.append(roman_numeral_chord_tuple)
 
     def _get_roman_numeral_chord_notation(self, chord: Chord, chord_degree: int) -> str:
         ROMAN_NUMERALS_ONE_TO_SEVEN= [
@@ -41,7 +43,7 @@ class Key:
             "VII"
         ]
 
-        if chord_degree =< 0 or position > 7:
+        if chord_degree <= 0 or chord_degree > 7:
             raise Exception("`position` is not supported as a valid value for 7-note/7-chord keys.")
 
         chords_roman_numeral = ROMAN_NUMERALS_ONE_TO_SEVEN[chord_degree - 1]
@@ -58,3 +60,6 @@ class Key:
 
     def get_key_chords(self):
         return self.chords
+
+    def get_key_chords_and_roman_numerals(self):
+        return self.chords_and_roman_nums
