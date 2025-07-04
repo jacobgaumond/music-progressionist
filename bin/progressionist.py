@@ -196,7 +196,7 @@ def key_info_screen_setup(key_type: str, key_root_pitch: Pitch) -> None:
 
         print_hash_banner()
 
-        print("Displaying chord info for the key of " + str(key_root_pitch) + key_type.lower())
+        print("Displaying chord info for the key of " + str(key_root_pitch) + " " + key_type.lower())
 
         print_hash_banner()
 
@@ -226,3 +226,6 @@ def key_info_screen_setup(key_type: str, key_root_pitch: Pitch) -> None:
 def run_app() -> None:
     while(True): # Any finished job should ultimately return you to the start screen
         start_screen_setup()
+
+if __name__ == "__main__":
+    run_app()
