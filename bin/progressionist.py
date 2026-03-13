@@ -138,13 +138,17 @@ def setup_key() -> None:
         print_hash_banner()
 
         options_printed = 0
+        print("\t", end='')
         for pitch_num in range(len(Pitch.PITCH_LIST)):
-            print("\t" + str(pitch_num + 1) + ") " + Pitch.PITCH_LIST[pitch_num], end='')
+            print(str(pitch_num + 1) + ") " + Pitch.PITCH_LIST[pitch_num], end='')
+            if len(str(Pitch.PITCH_LIST[pitch_num])) <= 2: # This restriction is needed to avoid UI tab inconsistencies with accidentals
+                print("\t", end='')
 
             options_printed += 1
             if options_printed < len(Pitch.PITCH_LIST): # Is this NOT the last iteration?
                 if options_printed % MAX_OPTIONS_PER_LINE == 0: # Is options_printed divisible by MAX_OPTIONS_PER_LINE?
                     print() # Newline
+                    print("\t", end='')
                 else:
                     print("\t", end='') # Add a tab (end result is all items are 2 tabs apart)
         print("\n\n", end='')
@@ -204,7 +208,10 @@ def key_info_screen_setup(key_type: str, key_root_pitch: Pitch) -> None:
             roman_numeral = chord_entry[0]
             chord         = chord_entry[1]
 
-            print("\t" + roman_numeral + "\t: " + chord.get_chord_name() + "\t\t|", end='')
+            print("\t" + roman_numeral + "\t: " + chord.get_chord_name() + "\t", end='')
+            if len(chord.get_chord_name()) <= 5: # This restriction is needed to avoid UI tab inconsistencies with accidentals
+                print("\t", end='')
+            print("|", end='')
             for pitch in chord.get_chord_notes():
                 print("\t" + str(pitch), end='')
             print()
