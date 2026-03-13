@@ -42,7 +42,7 @@ def get_str_int_list(end_int: int, start_int: int=1) -> list[str]:
     
     list_of_str_ints = []
     for int in list_of_ints:
-        list_of_str_ints += str(int)
+        list_of_str_ints.append(str(int))
     return list_of_str_ints
 
 # App functions
